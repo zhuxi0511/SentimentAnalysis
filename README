@@ -4,7 +4,7 @@ You can use 'python ranking.py [date_time] --train --predict' to run this projec
 
 The data file's format is 'item\001group\002user\tclick#display', every line is a data.
 
---------------------------------Tags------------------------------------------------------
+--------------------------------Tags--------------------------------------------
 If get problems that the program always error, try to clean ./data/* and rerun the program.
-------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
