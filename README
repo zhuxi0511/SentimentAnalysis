@@ -1,0 +1,10 @@
+This is the appapi-ranking project.
+
+You can use 'python ranking.py [date_time] --train --predict' to run this project, the project will read the date_time's data file and the day(hour) before date_time's model file, the model will be update and the output will be saved in HDFS. You can point all file's HDFS location above in 'conf/config.ini'.
+
+The data file's format is 'item\001group\002user\tclick#display', every line is a data.
+
+--------------------------------Tags------------------------------------------------------
+If get problems that the program always error, try to clean ./data/* and rerun the program.
+------------------------------------------------------------------------------------------
+
