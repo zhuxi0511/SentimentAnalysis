@@ -24,7 +24,19 @@ def make_algorithm_init(algorithm_name):
     const.preprocess_handle = weibo_preprocess.WeiboPreprocess()
 
 def combine_controller():
+    logging.info('Preprocess combine start')
+
+    # get config dictionary
+    config_dict = const.config_dict
     algorithm_handle = const.algorithm_handle
+
+    data_dir = const.config_dict['data_dir']
+    model_dir = const.config_dict['model_dir']
+    data_file = os.path.join(data_dir, 'weibo.train')
+    model_file = os.path.join(model_dir, 'model')
+    train.combine(algorithm_handle, train_file, test_file, output_file)
+
+    logging.info('Preprocess combine end')
 
 def preprocess_controller():
     logging.info('Preprocess controller start')
@@ -52,6 +64,7 @@ def train_controller():
     #train.check_data(algorithm_handle)
     data_dir = const.config_dict['data_dir']
     model_dir = const.config_dict['model_dir']
+    #TODO specify file
     data_file = os.path.join(data_dir, 'weibo.train')
     model_file = os.path.join(model_dir, 'model')
     train.train(algorithm_handle, data_file, model_file)
