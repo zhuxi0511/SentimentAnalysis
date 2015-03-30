@@ -24,19 +24,23 @@ def make_algorithm_init(algorithm_name):
     const.preprocess_handle = weibo_preprocess.WeiboPreprocess()
 
 def combine_controller():
-    logging.info('Preprocess combine start')
+    logging.info('Combine controller start')
 
     # get config dictionary
     config_dict = const.config_dict
     algorithm_handle = const.algorithm_handle
 
     data_dir = const.config_dict['data_dir']
-    model_dir = const.config_dict['model_dir']
-    data_file = os.path.join(data_dir, 'weibo.train')
-    model_file = os.path.join(model_dir, 'model')
+    if train.check_data(data_dir, config_dict['train_data']) < 0:
+        logging.error('train_data donot exist, check train_data in configure')
+        return -1
+
+    train_file = 'train_data'
+    test_file = 'test_data'
     train.combine(algorithm_handle, train_file, test_file, output_file)
 
-    logging.info('Preprocess combine end')
+    logging.info('Combin controller end')
+    return 0
 
 def preprocess_controller():
     logging.info('Preprocess controller start')
