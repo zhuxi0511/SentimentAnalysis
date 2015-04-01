@@ -5,16 +5,6 @@ import os
 import sys
 import util
 
-def update_model_info(local_model_info, name, date):
-    """update_model_info(local_model_info, name, date)
-
-    Create or update the model_info file.
-    """
-    fopt = open(local_model_info, 'w')
-    fopt.write('This model is train by algorithm %s, the model\'s update date is %s\n' % (name, date))
-    fopt.close()
-    return 0
-
 def save(model_dir, run_date, model_info):
     """Save model to model_dir and add model info and date"""
 
@@ -32,4 +22,11 @@ def save(model_dir, run_date, model_info):
     os.system('echo %s > %s' % (model_content, model_info_file))
 
     os.system('cp %s %s' % (config_file, os.path.join(model_dir_with_time, 'config')))
+    return 0
+
+def load(model_dir, model_data):
+    specify_model_file = os.path.join(model_dir, model_data, 'model')
+    if not os.path.isfile(specify_model_file):
+        return -1
+    return os.system('cp %s %s' % (specify_model_file, 'model'))
 

@@ -4,8 +4,15 @@
 import sys
 import util
 
-def predict(handle, local_model, local_output):
-    return handle.predict(local_model, local_output)
+def check_data(data_dir, data_file_list):
+    os.system('rm -f test_data')
+    for train_file in data_file_list:
+        train_file = os.path.join(data_dir, '%s.test' % name)
+        os.system('cat %s >> test_data')
+    return 0
 
-def save_output_to_hadoop(hadoop_bin, output_file, local_output_file):
-    return util.put_file_to_hadoop(hadoop_bin, output_file, local_output_file)
+def predict(handle, test_file, model_file, output_file):
+    """Use algorithm handle to predict"""
+
+    return handle.predict(test_file, model_file, output_file)
+

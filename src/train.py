@@ -5,18 +5,17 @@ import sys
 import os
 import util
 
-def list_file(data_dir):
-    if train_data == 'ALL':
+def list_file(data_dir, data_file, class_of_data='train'):
+    if data_file == 'ALL':
         name = '*'
     else:
-        name = train_data
-    train_file = os.path.join(data_dir, '%s.train' % name)
-    res = os.popen('ls %s' % train_file)
+        name = data_file
+    data_file = os.path.join(data_dir, '%s.%s' % (name, class_of_data))
+    res = os.popen('ls %s' % data_file)
     res_list = list(res.readlines())
-    if len(res.readlines()) == 0:
+    if len(res) == 0:
         return None, -1
     return map(lambda x:x.strip(), res_list), 0
-
 
 def check_data(data_dir, data_file_list):
     os.system('rm -f train_data')

@@ -30,7 +30,10 @@ def combine_controller():
     config_dict = const.config_dict
     algorithm_handle = const.algorithm_handle
 
-    train_file_list, status = train.list_file(config_dict['data_dir'])
+    data_dir = config_dict['data_dir']
+    train_data = config_dict['train_data']
+
+    train_file_list, status = train.list_file(data_dir, train_data)
     if status < 0:
         logging.error('train_data donot exist, check train_data in configure')
         return -1
@@ -66,8 +69,10 @@ def train_controller(run_date):
     algorithm_handle = const.algorithm_handle
 
     # train data to model
-    #train.check_data(algorithm_handle)
-    train_file_list, status = train.list_file(config_dict['data_dir'])
+    data_dir = config_dict['data_dir']
+    train_data = config_dict['train_data']
+
+    train_file_list, status = train.list_file(data_dir, train_data)
     if status < 0:
         logging.error('train_data donot exist, check train_data in configure')
         return -1
@@ -91,10 +96,24 @@ def predict_controller():
     config_dict = const.config_dict
     algorithm_handle = const.algorithm_handle
 
+    data_dir = config_dict['data_dir']
+    data_file = config_dict['predict_data']
+
+    test_file_list, status = train.list_file(data_dir, data_file, 'test')
+    if status < 0:
+        logging.error('test_data donot exist, check test_data in configure')
+        return -1
+    predict.check_data(data_dir, test_file_list)
+
+    model_data = config_dict['model_data']
+    model.load(data_dir, model_data)
+
     # predict the result
-    local_output_file = os.path.join(config_dict['project_dir'], 'data', 'output')
-    predict.predict(algorithm_handle, local_model_file, local_output_file)
-    output_file = os.path.join(config_dict['output_dir'], date, 'output')
+    test_file = 'test_data'
+    model_file = 'model'
+    output_file = 'output'
+    predict.predict(algorithm_handle, test_file, model_file, output_file)
+
     logging.info('Predict controller end')
 
 def algorithm_controller(action, algorithm_name):
