@@ -30,10 +30,11 @@ def combine_controller():
     config_dict = const.config_dict
     algorithm_handle = const.algorithm_handle
 
-    data_dir = const.config_dict['data_dir']
-    if train.check_data(data_dir, config_dict['train_data']) < 0:
+    train_file_list, status = train.list_file(config_dict['data_dir'])
+    if status < 0:
         logging.error('train_data donot exist, check train_data in configure')
         return -1
+    train.check_data(data_dir, train_file_list)
 
     train_file = 'train_data'
     test_file = 'test_data'
