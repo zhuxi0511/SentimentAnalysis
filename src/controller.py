@@ -58,7 +58,7 @@ def preprocess_controller():
             algorithm_handle.data_adapter(result_data, feature_dict, os.path.join(data_dir, file_name[:-4]))
     logging.info('Preprocess controller end')
 
-def train_controller():
+def train_controller(run_date):
     logging.info('Train controller start')
     # get config dictionary
     config_dict = const.config_dict
@@ -66,12 +66,21 @@ def train_controller():
 
     # train data to model
     #train.check_data(algorithm_handle)
-    data_dir = const.config_dict['data_dir']
+    train_file_list, status = train.list_file(config_dict['data_dir'])
+    if status < 0:
+        logging.error('train_data donot exist, check train_data in configure')
+        return -1
+    train.check_data(data_dir, train_file_list)
+    train_file = 'train_data'
+    model_file = 'model'
+
+    train.train(algorithm_handle, train_file, model_file)
+
     model_dir = const.config_dict['model_dir']
-    #TODO specify file
-    data_file = os.path.join(data_dir, 'weibo.train')
-    model_file = os.path.join(model_dir, 'model')
-    train.train(algorithm_handle, data_file, model_file)
+    model.save(model_dir, run_date, 
+            (config_dict['algorithm'], 
+                train_file_list, 
+                config_dict['config_file'))
 
     logging.info('Train controller end')
 

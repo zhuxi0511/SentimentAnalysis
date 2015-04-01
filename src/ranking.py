@@ -75,6 +75,7 @@ if __name__ == '__main__':
         print >> sys.stderr, 'error with reading config file'
         sys.exit(-1)
     config_dict = const.config_dict
+    config_dict['config_file'] = config_file
     config_dict['algorithm_dir'] = get_value(config, 'INIT', 'algorithm_dir', 
             '[INIT] does not have algorithm_dir option')
     config_dict['algorithm'] = get_value(config, 'INIT', 'algorithm', 
@@ -112,6 +113,7 @@ if __name__ == '__main__':
         controller.algorithm_controller('check', option.check_algorithm)
 
     from util import DateHour
+    run_date = DateHour()
     if option.combine:
         controller.combine_controller()
     else:
@@ -119,7 +121,7 @@ if __name__ == '__main__':
             controller.preprocess_controller()
 
         if option.train:
-            controller.train_controller()
+            controller.train_controller(run_date)
 
         if option.predict:
             controller.predict_controller()
