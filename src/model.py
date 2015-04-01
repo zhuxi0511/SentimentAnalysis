@@ -25,6 +25,8 @@ def save(model_dir, run_date, model_info):
     return 0
 
 def load(model_dir, model_data):
+    if model_data == 'AUTO' and not os.path.isfile('model'):
+        return -2
     specify_model_file = os.path.join(model_dir, model_data, 'model')
     if not os.path.isfile(specify_model_file):
         return -1

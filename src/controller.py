@@ -31,16 +31,16 @@ def combine_controller():
     algorithm_handle = const.algorithm_handle
 
     data_dir = config_dict['data_dir']
-    train_data = config_dict['train_data']
+    train_file = config_dict['train_file']
 
-    train_file_list, status = train.list_file(data_dir, train_data)
+    train_file_list, status = train.list_file(data_dir, train_file)
     if status < 0:
-        logging.error('train_data donot exist, check train_data in configure')
+        logging.error('train_file donot exist, check train_file in configure')
         return -1
     train.check_data(data_dir, train_file_list)
 
-    train_file = 'train_data'
-    test_file = 'test_data'
+    train_file = 'train'
+    test_file = 'test'
     train.combine(algorithm_handle, train_file, test_file, output_file)
 
     logging.info('Combin controller end')
@@ -70,14 +70,14 @@ def train_controller(run_date):
 
     # train data to model
     data_dir = config_dict['data_dir']
-    train_data = config_dict['train_data']
+    train_file = config_dict['train_file']
 
-    train_file_list, status = train.list_file(data_dir, train_data)
+    train_file_list, status = train.list_file(data_dir, train_file)
     if status < 0:
-        logging.error('train_data donot exist, check train_data in configure')
+        logging.error('train_file donot exist, check train_file in configure')
         return -1
     train.check_data(data_dir, train_file_list)
-    train_file = 'train_data'
+    train_file = 'train'
     model_file = 'model'
 
     train.train(algorithm_handle, train_file, model_file)
@@ -97,11 +97,11 @@ def predict_controller():
     algorithm_handle = const.algorithm_handle
 
     data_dir = config_dict['data_dir']
-    data_file = config_dict['predict_data']
+    data_file = config_dict['test_file']
 
     test_file_list, status = train.list_file(data_dir, data_file, 'test')
     if status < 0:
-        logging.error('test_data donot exist, check test_data in configure')
+        logging.error('test_file donot exist, check test_file in configure')
         return -1
     predict.check_data(data_dir, test_file_list)
 
@@ -109,7 +109,7 @@ def predict_controller():
     model.load(data_dir, model_data)
 
     # predict the result
-    test_file = 'test_data'
+    test_file = 'test'
     model_file = 'model'
     output_file = 'output'
     predict.predict(algorithm_handle, test_file, model_file, output_file)

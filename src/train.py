@@ -18,10 +18,10 @@ def list_file(data_dir, data_file, class_of_data='train'):
     return map(lambda x:x.strip(), res_list), 0
 
 def check_data(data_dir, data_file_list):
-    os.system('rm -f train_data')
+    os.system('rm -f train')
     for train_file in data_file_list:
         train_file = os.path.join(data_dir, '%s.train' % name)
-        os.system('cat %s >> train_data')
+        os.system('cat %s >> train')
     return 0
 
 def preprocess(handle, lines):
