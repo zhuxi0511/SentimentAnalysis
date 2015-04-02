@@ -88,8 +88,16 @@ if __name__ == '__main__':
             '[DATA] does not have log_dir option')
     config_dict['output_dir'] = get_dir(config, 'DATA', 'output_dir', 
             '[DATA] does not have output_dir option')
-    config_dict['predict_data'] = get_value(config, 'PREDICT', 'predict_data', 
+    config_dict['feature_extract'] = get_value(config, 'TRAIN', 'feature_extract', 
+            '[TRAIN] does not have feature_extract option')
+    print config_dict['feature_extract']
+    exit(0)
+    config_dict['train_file'] = get_value(config, 'TRAIN', 'train_file', 
+            '[TRAIN] does not have train_file option')
+    config_dict['test_file'] = get_value(config, 'PREDICT', 'test_file', 
             '[PREDICT] does not have predict_data option')
+    config_dict['model_data'] = get_value(config, 'PREDICT', 'model_data', 
+            '[PREDICT] does not have model_data option')
     config_dict['predict_model'] = get_value(config, 'PREDICT', 'predict_model', 
             '[PREDICT] does not have predict_model option')
 

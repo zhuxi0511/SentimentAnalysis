@@ -86,7 +86,7 @@ def train_controller(run_date):
     model.save(model_dir, run_date, 
             (config_dict['algorithm'], 
                 train_file_list, 
-                config_dict['config_file'))
+                config_dict['config_file']))
 
     logging.info('Train controller end')
 
