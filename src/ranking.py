@@ -90,8 +90,7 @@ if __name__ == '__main__':
             '[DATA] does not have output_dir option')
     config_dict['feature_extract'] = get_value(config, 'TRAIN', 'feature_extract', 
             '[TRAIN] does not have feature_extract option')
-    print config_dict['feature_extract']
-    exit(0)
+    config_dict['feature_extract'] = config_dict['feature_extract'].split(' ')
     config_dict['train_file'] = get_value(config, 'TRAIN', 'train_file', 
             '[TRAIN] does not have train_file option')
     config_dict['test_file'] = get_value(config, 'PREDICT', 'test_file', 
