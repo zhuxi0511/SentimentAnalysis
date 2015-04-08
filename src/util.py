@@ -15,48 +15,24 @@ def save_preprocessed_result(result, file_name):
         value = map(lambda feature:':'.join(feature), value.items())
         f.write('%s\t%s\n' % (item_id, '\t'.join(value)))
 
-def get_file_to_local(hadoop_bin, hadoop_dir, local_file, type):
-    """ get hadoop file to local directory"""
+def save_feature_dict(feature_dict, file_name):
+    data_dir = const.config_dict['data_dir']
+    f = open(os.path.join(data_dir, file_name), 'w')
+    for feature, feature_id in feature_dict.iteritems():
+        f.write('%s\t%s\n' % (feature_id, feature))
 
-    if (type=='file'):
-        test_hadoop_cmd = hadoop_bin + ' fs -test -e ' + hadoop_dir
-        test_local_cmd = 'test -e ' + local_file
-        rm_local_cmd = 'rm ' + local_file
-        get_cmd = hadoop_bin + ' fs -get ' + hadoop_dir + ' ' + local_file
-    elif (type=='dir'):
-        test_hadoop_cmd = hadoop_bin + ' fs -test -d ' + hadoop_dir
-        test_local_cmd = 'test -e ' + local_file
-        rm_local_cmd = 'rm ' + local_file
-        get_cmd = hadoop_bin + ' fs -getmerge ' + hadoop_dir + ' ' + local_file
+def list_file(data_dir, data_file, class_of_data='train'):
+    if data_file == 'ALL':
+        name = '*'
     else:
-        print >> sys.stderr, "function GetFileToLocal param error."
-        return 1
-    if os.system(test_hadoop_cmd) != 0:
-        print >> sys.stderr, "Hadoop file do not exist"
-        return 1
-    if os.system(test_local_cmd) == 0:
-        os.system(rm_local_cmd)
-    os.system(get_cmd)
-    return 0
+        name = data_file
+    data_file = os.path.join(data_dir, '%s.%s' % (name, class_of_data))
+    res = os.popen('ls %s' % data_file)
+    res_list = list(res.readlines())
+    if len(res) == 0:
+        return None, -1
+    return map(lambda x:x.strip(), res_list), 0
 
-
-def put_file_to_hadoop(hadoop_bin, hadoop_file, local_file):
-    """ put local file to hadoop """
-
-    test_hadoop_cmd = hadoop_bin + ' fs -test -e ' + hadoop_file
-    test_local_cmd = 'test -e ' + local_file
-    rm_hadoop_cmd = hadoop_bin + ' fs -rm ' + hadoop_file
-    put_cmd = hadoop_bin + ' fs -put ' + local_file + ' ' + hadoop_file
-    if os.system(test_local_cmd) != 0:
-        print >> sys.stderr, "Local file do not exist"
-        return 1
-    if os.system(test_hadoop_cmd) == 0:
-        os.system(rm_hadoop_cmd)
-    print put_cmd
-    os.system(put_cmd)
-    return 0
-
-# class DateHour
 class DateHour(object):
     def __init__(self):
         self.datetime = datetime.datetime.now()

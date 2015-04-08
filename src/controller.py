@@ -33,7 +33,7 @@ def combine_controller():
     data_dir = config_dict['data_dir']
     train_file = config_dict['train_file']
 
-    train_file_list, status = train.list_file(data_dir, train_file)
+    train_file_list, status = util.list_file(data_dir, train_file)
     if status < 0:
         logging.error('train_file donot exist, check train_file in configure')
         return -1
@@ -59,7 +59,8 @@ def preprocess_controller():
         if file_name.endswith('.raw'):
             preprocess_lines = open(os.path.join(data_dir, file_name)).readlines()
             result_data, feature_dict = train.preprocess(preprocess_handle, preprocess_lines)
-            algorithm_handle.data_adapter(result_data, feature_dict, os.path.join(data_dir, file_name[:-4]))
+            util.save_preprocessed_result(result_data, file_name[:-4])
+    util.save_feature_dict = (feature_dict, 'feature_dict')
     logging.info('Preprocess controller end')
 
 def train_controller(run_date):
@@ -72,7 +73,7 @@ def train_controller(run_date):
     data_dir = config_dict['data_dir']
     train_file = config_dict['train_file']
 
-    train_file_list, status = train.list_file(data_dir, train_file)
+    train_file_list, status = util.list_file(data_dir, train_file)
     if status < 0:
         logging.error('train_file donot exist, check train_file in configure')
         return -1
@@ -99,7 +100,7 @@ def predict_controller():
     data_dir = config_dict['data_dir']
     data_file = config_dict['test_file']
 
-    test_file_list, status = train.list_file(data_dir, data_file, 'test')
+    test_file_list, status = util.list_file(data_dir, data_file, 'test')
     if status < 0:
         logging.error('test_file donot exist, check test_file in configure')
         return -1
