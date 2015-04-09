@@ -131,7 +131,7 @@ if __name__ == '__main__':
             controller.train_controller(run_date)
 
         if option.predict:
-            controller.predict_controller()
+            controller.predict_controller(run_date)
 
     logging.info('analysis platform finished successful')
     sys.exit(0)

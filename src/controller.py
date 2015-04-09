@@ -91,7 +91,7 @@ def train_controller(run_date):
 
     logging.info('Train controller end')
 
-def predict_controller():
+def predict_controller(run_date):
     logging.info('Predict controller start')
     # get config dictionary
     config_dict = const.config_dict
@@ -114,6 +114,8 @@ def predict_controller():
     model_file = 'model'
     output_file = 'output'
     predict.predict(algorithm_handle, test_file, model_file, output_file)
+    predict.eval()
+    predict.save(run_date)
 
     logging.info('Predict controller end')
 

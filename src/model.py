@@ -17,7 +17,9 @@ def save(model_dir, run_date, model_info):
     model_content = """
         Algorithm:%s
         Train_file:%s
-    """ % (algorithm, ' '.join(train_file_list))
+        Train_time:%s
+    """ % (algorithm, ' '.join(train_file_list), time)
+    os.system('echo %s > %s' % (model_content, 'info'))
     model_info_file = os.path.join(model_dir_with_time, 'info')
     os.system('echo %s > %s' % (model_content, model_info_file))
 
@@ -25,10 +27,13 @@ def save(model_dir, run_date, model_info):
     return 0
 
 def load(model_dir, model_data):
-    if model_data == 'AUTO' and not os.path.isfile('model'):
-        return -2
-    specify_model_file = os.path.join(model_dir, model_data, 'model')
-    if not os.path.isfile(specify_model_file):
-        return -1
-    return os.system('cp %s %s' % (specify_model_file, 'model'))
+    if model_data == 'AUTO':
+        if not os.path.isfile('model'):
+            return -2
+    else:
+        specify_model_file = os.path.join(model_dir, model_data, 'model')
+        if not os.path.isfile(specify_model_file):
+            return -1
+        return os.system('cp %s %s' % (specify_model_file, 'model'))
+    return 0
 
