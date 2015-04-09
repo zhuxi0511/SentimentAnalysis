@@ -115,7 +115,10 @@ def predict_controller(run_date):
     output_file = 'output'
     predict.predict(algorithm_handle, test_file, model_file, output_file)
     predict.eval()
-    predict.save(run_date)
+
+    predict.save(config_dict['output_dir'],
+            run_date, 
+            (config_dict['algorithm'], test_file_list))
 
     logging.info('Predict controller end')
 

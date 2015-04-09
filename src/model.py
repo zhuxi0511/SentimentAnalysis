@@ -32,8 +32,10 @@ def load(model_dir, model_data):
             return -2
     else:
         specify_model_file = os.path.join(model_dir, model_data, 'model')
+        specify_model_info = os.path.join(model_dir, model_data, 'info')
         if not os.path.isfile(specify_model_file):
             return -1
+        os.system('cp %s %s' % (specify_model_info, 'info'))
         return os.system('cp %s %s' % (specify_model_file, 'model'))
     return 0
 

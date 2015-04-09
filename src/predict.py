@@ -44,3 +44,21 @@ def eval():
     f.write('F: %s\n' % F)
     f.close()
 
+def save(output_dir, run_date, predict_info):
+    """Save predict output to output_dir and add test file info and model info"""
+
+    time = '%s_%s' % run_date.get_date_hour
+    output_dir_with_time = os.path.join(output_dir, time)
+    os.mkdir(output_dir_with_time)
+    os.system('cp info %s' % os.path.join(output_dir_with_time, 'model_info'))
+    os.system('cp eval %s' % os.path.join(output_dir_with_time, 'eval'))
+    os.system('cp output %s' % os.path.join(output_dir_with_time, 'output'))
+    algorithm, test_file_list = predict_info
+    predict_content = """
+        Algorithm:%s
+        Test_file:%s
+        Test_time:%s
+    """ % (algorithm, ' '.join(test_file_list), time)
+    predict_info_file = os.path.join(output_dir_with_time, 'predict_info')
+    os.system('echo %s > %s' % (predict_content, predict_info_file))
+    return 0
