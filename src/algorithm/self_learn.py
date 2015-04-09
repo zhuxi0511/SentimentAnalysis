@@ -30,10 +30,12 @@ class SelfLearn:
         train_list = []
         f = open(train_file)
         for i, line in enumerate(f.readlines()):
-            line = line.strip().split(' ')
-            context = map(lambda x:x.split(':'), line[1:])
+            line = line.strip().split('\t')
+            item_id = line[0]
+            tag = line[1]
+            context = map(lambda x:x.split(':'), line[2])
             context = tuple(map(lambda x:(x[0], float(x[1])), context))
-            train_list.append( ('train%s' % i, context, line[0]) )
+            train_list.append( ('train%s' % item_id, context, tag) )
 
         # split train_list to 1:2 ==> oracle:train
         oracle_set = set(train_list[:len(train_list)/3])
@@ -43,10 +45,10 @@ class SelfLearn:
         test_set = set()
         f = open(test_file)
         for i, line in enumerate(f.readlines()):
-            line = line.strip().split(' ')
-            context = map(lambda x:x.split(':'), line[1:])
+            item_id, tag, features = line.strip().split('\t')
+            context = map(lambda x:x.split(':'), features)
             context = tuple(map(lambda x:(x[0], float(x[1])), context))
-            test_set.add( ('test%s' % i, context, line[0]) )
+            test_set.add( ('test%s' % item_id, context, tag) )
         f.close()
 
         test_sum = len(test_set)
@@ -108,16 +110,20 @@ class SelfLearn:
             print 'iter count round %s' % iter_count
             print 'test emotion count = %s' % test_emotion_count
 
-        test_answer_list = ['0'] * 29951 
+        answer_dict = {}
         for item in train_set:
             sign, context, tag = item
             if sign.startswith('test'):
-                test_answer_list[int(sign[4:])] = tag
+                answer_dict[sign[4:]] = tag
+        for item in test_set:
+            sign, context, tag = item
+            if sign.startswith('test'):
+                answer_dict[sign[4:]] = '0'
 
         f = open(output_file, 'w')
-        f.writelines(map(lambda x:'%s\n' % x, test_answer_list))
+        f.writelines(map(lambda x:'\t'.join(x)+'\n', 
+            answer_dict.iteritems()))
         f.close()
-        
 
     def train(self, data_file, model_file):
         ret = os.popen('maxent %s -m %s -i 30' % (data_file, model_file))

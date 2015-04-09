@@ -9,11 +9,12 @@ import const
 def save_preprocessed_result(result, file_name):
     data_dir = const.config_dict['data_dir']
     f = open(os.path.join(data_dir, file_name), 'w')
-    for item in result:
-        item_id = item['item_id']
-        value = item['value']
-        value = map(lambda feature:':'.join(feature), value.items())
-        f.write('%s\t%s\n' % (item_id, '\t'.join(value)))
+    for item_id, value in result.iteritems():
+        tag = value['tag']
+        feature_dict = value['feature']
+        feature_list = map(lambda feature:':'.join(feature), 
+                feature_dict.iteritems())
+        f.write('%s\t%s\t%s\n' % (item_id, tag, ' '.join(feature_list)))
 
 def save_feature_dict(feature_dict, file_name):
     data_dir = const.config_dict['data_dir']
