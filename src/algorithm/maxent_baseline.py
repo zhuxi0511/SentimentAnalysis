@@ -7,7 +7,7 @@ import logging
 import const
 from maxent import MaxentModel
 
-class Maxent:
+class MaxentBaseline:
 
     def __init__(self):
         self.maxent = MaxentModel()

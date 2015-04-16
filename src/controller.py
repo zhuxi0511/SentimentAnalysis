@@ -18,7 +18,9 @@ from preprocess import weibo_preprocess
 def make_algorithm_init(algorithm_name):
     import algorithm.maxent
     algorithm_dict = {
-            'maxent': algorithm.maxent.Maxent
+            'maxent_baseline': algorithm.maxent_baseline.Maxent,
+            'self_learn': algorithm.self_learn.SelfLearn,
+            'mln': algorithm.mln.Mln,
             }
     const.algorithm_handle = algorithm_dict.get(algorithm_name, None)()
     const.preprocess_handle = weibo_preprocess.WeiboPreprocess()
@@ -35,7 +37,7 @@ def combine_controller():
 
     train_file_list, status = util.list_file(data_dir, train_file)
     if status < 0:
-        logging.error('train_file donot exist, check train_file in configure')
+        logging.error('train_file do not exist, check train_file in configure')
         return -1
     train.check_data(data_dir, train_file_list)
 
@@ -75,7 +77,7 @@ def train_controller(run_date):
 
     train_file_list, status = util.list_file(data_dir, train_file)
     if status < 0:
-        logging.error('train_file donot exist, check train_file in configure')
+        logging.error('train_file do not exist, check train_file in configure')
         return -1
     train.check_data(data_dir, train_file_list)
     train_file = 'train'
@@ -102,7 +104,7 @@ def predict_controller(run_date):
 
     test_file_list, status = util.list_file(data_dir, data_file, 'test')
     if status < 0:
-        logging.error('test_file donot exist, check test_file in configure')
+        logging.error('test_file do not exist, check test_file in configure')
         return -1
     predict.check_data(data_dir, test_file_list)
 
