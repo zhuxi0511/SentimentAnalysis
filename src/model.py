@@ -8,21 +8,22 @@ import util
 def save(model_dir, run_date, model_info):
     """Save model to model_dir and add model info and date"""
 
-    time = '%s_%s' % run_date.get_date_hour()
-    model_dir_with_time = os.path.join(model_dir, time)
-    os.mkdir(model_dir_with_time)
-    os.system('cp model %s' % model_dir_with_time)
+    algorithm, train_file_list, config_file, model_name = model_info
+    if model_name == 'AUTO':
+        model_name = '%s_%s' % run_date.get_date_hour()
+    model_dir_with_name = os.path.join(model_dir, model_name)
+    os.mkdir(model_dir_with_name)
+    os.system('cp model %s' % model_dir_with_name)
 
-    algorithm, train_file_list, config_file = model_info
     model_content = """Algorithm:%s
 Train_file:%s
 Model_name:%s
-    """ % (algorithm, ' '.join(train_file_list), time)
+    """ % (algorithm, ' '.join(train_file_list), model_name)
     os.system('echo "%s" > %s' % (model_content, 'info'))
-    model_info_file = os.path.join(model_dir_with_time, 'info')
+    model_info_file = os.path.join(model_dir_with_name, 'info')
     os.system('echo "%s" > %s' % (model_content, model_info_file))
 
-    os.system('cp %s %s' % (config_file, os.path.join(model_dir_with_time, 'config')))
+    os.system('cp %s %s' % (config_file, os.path.join(model_dir_with_name, 'config')))
     return 0
 
 def load(model_dir, model_data):

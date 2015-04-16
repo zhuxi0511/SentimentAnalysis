@@ -91,7 +91,8 @@ def train_controller(run_date):
     model.save(model_dir, run_date, 
             (config_dict['algorithm'], 
                 train_file_list, 
-                config_dict['config_file']))
+                config_dict['config_file'], 
+                config_dict['model_name']))
 
     logging.info('Train controller end')
 
@@ -110,7 +111,7 @@ def predict_controller(run_date):
         return -1
     predict.check_data(data_dir, test_file_list)
 
-    model_data = config_dict['model_data']
+    model_data = config_dict['test_model']
     model.load(data_dir, model_data)
 
     # predict the result

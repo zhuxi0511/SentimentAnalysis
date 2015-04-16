@@ -93,10 +93,12 @@ if __name__ == '__main__':
     config_dict['feature_extract'] = config_dict['feature_extract'].split(' ')
     config_dict['train_file'] = get_value(config, 'TRAIN', 'train_file', 
             '[TRAIN] does not have train_file option')
+    config_dict['model_name'] = get_value(config, 'TRAIN', 'model_name', 
+            '[TRAIN] does not have model_name option')
     config_dict['test_file'] = get_value(config, 'PREDICT', 'test_file', 
             '[PREDICT] does not have predict_data option')
-    config_dict['model_data'] = get_value(config, 'PREDICT', 'model_data', 
-            '[PREDICT] does not have model_data option')
+    config_dict['test_model'] = get_value(config, 'PREDICT', 'test_model', 
+            '[PREDICT] does not have test_model option')
 
     #Make director for log model and output
     #Then initialize log file

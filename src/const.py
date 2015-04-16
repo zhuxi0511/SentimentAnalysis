@@ -8,8 +8,9 @@ config_dict = {
         'output_dir': None,
         'feature_extract': None, 
         'train_file': 'ALL',
+        'model_name': 'AUTO',
         'test_file': 'ALL',
-        'model_data': 'AUTO',
+        'test_model': 'AUTO',
         }
 algorithm_handle = None
 preprocess_handle = None
