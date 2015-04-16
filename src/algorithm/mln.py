@@ -6,7 +6,7 @@ import sys
 import logging
 import const
 
-class MLN:
+class Mln:
 
     def __init__(self):
         pass

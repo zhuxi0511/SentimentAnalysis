@@ -12,7 +12,7 @@ def save_preprocessed_result(result, file_name):
     for item_id, value in result.iteritems():
         tag = value['tag']
         feature_dict = value['feature']
-        feature_list = map(lambda feature:':'.join(feature), 
+        feature_list = map(lambda feature:'%s:%s' % (feature[0], feature[1]), 
                 feature_dict.iteritems())
         f.write('%s\t%s\t%s\n' % (item_id, tag, ' '.join(feature_list)))
 
@@ -30,7 +30,7 @@ def list_file(data_dir, data_file, class_of_data='train'):
     data_file = os.path.join(data_dir, '%s.%s' % (name, class_of_data))
     res = os.popen('ls %s' % data_file)
     res_list = list(res.readlines())
-    if len(res) == 0:
+    if len(res_list) == 0:
         return None, -1
     return map(lambda x:x.strip(), res_list), 0
 

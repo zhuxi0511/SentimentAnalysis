@@ -9,9 +9,9 @@ def check_data(data_dir, data_file_list):
     """Check and combine all train data to tmp dir for training"""
 
     os.system('rm -f train')
-    for train_file in data_file_list:
-        train_file = os.path.join(data_dir, '%s.train' % name)
-        os.system('cat %s >> train')
+    for file_name in data_file_list:
+        train_file = os.path.join(data_dir, '%s' % file_name)
+        os.system('cat %s >> train' % train_file)
     return 0
 
 def preprocess(handle, lines):

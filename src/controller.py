@@ -16,9 +16,11 @@ from preprocess import weibo_preprocess
 
 #TODO init the algorithm after read the config file
 def make_algorithm_init(algorithm_name):
-    import algorithm.maxent
+    import algorithm.maxent_baseline
+    import algorithm.self_learn
+    import algorithm.mln
     algorithm_dict = {
-            'maxent_baseline': algorithm.maxent_baseline.Maxent,
+            'maxent_baseline': algorithm.maxent_baseline.MaxentBaseline,
             'self_learn': algorithm.self_learn.SelfLearn,
             'mln': algorithm.mln.Mln,
             }

@@ -33,7 +33,7 @@ class MaxentBaseline:
         self.maxent.begin_add_event()
         for line in f.readlines():
             item_id, tag, features = line.strip().split('\t')
-            features = map(lambda x:x.split(':'), features)
+            features = map(lambda x:x.split(':'), features.split(' '))
             features = map(lambda x:(x[0], float(x[1])), features)
             if tag != '0':
                 self.maxent.add_event(features, tag, 4)
@@ -50,9 +50,9 @@ class MaxentBaseline:
         of = open(output_file, 'w')
         for line in f.readlines():
             item_id, tag, features = line.strip().split('\t')
-            features = map(lambda x:x.split(':'), features)
+            features = map(lambda x:x.split(':'), features.split(' '))
             features = map(lambda x:(x[0], float(x[1])), features)
-            max_tag = self.maxent.evalall(features)[0][0]
+            max_tag = self.maxent.eval_all(features)[0][0]
             of.write('%s\t%s\n' % (item_id, max_tag))
         of.close()
         f.close()

@@ -97,8 +97,6 @@ if __name__ == '__main__':
             '[PREDICT] does not have predict_data option')
     config_dict['model_data'] = get_value(config, 'PREDICT', 'model_data', 
             '[PREDICT] does not have model_data option')
-    config_dict['predict_model'] = get_value(config, 'PREDICT', 'predict_model', 
-            '[PREDICT] does not have predict_model option')
 
     #Make director for log model and output
     #Then initialize log file

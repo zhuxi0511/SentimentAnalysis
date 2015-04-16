@@ -1,14 +1,15 @@
 #!/user/bin/env python
 # coding: utf-8
 
+import os
 import sys
 import util
 
 def check_data(data_dir, data_file_list):
     os.system('rm -f test')
-    for train_file in data_file_list:
-        train_file = os.path.join(data_dir, '%s.test' % name)
-        os.system('cat %s >> test')
+    for file_name in data_file_list:
+        test_file = os.path.join(data_dir, '%s' % file_name)
+        os.system('cat %s >> test' % test_file)
     return 0
 
 def predict(handle, test_file, model_file, output_file):
@@ -32,8 +33,8 @@ def eval():
         item_id, tag = line.strip().split('\t')
         if tag != '0':
             p_sum += 1
-        if tag == standard.get(item_id, None):
-            right_sum += 1
+            if tag == standard.get(item_id, None):
+                right_sum += 1
     f.close()
     P = right_sum / p_sum
     R = right_sum / r_sum
@@ -47,18 +48,16 @@ def eval():
 def save(output_dir, run_date, predict_info):
     """Save predict output to output_dir and add test file info and model info"""
 
-    time = '%s_%s' % run_date.get_date_hour
+    time = '%s_%s' % run_date.get_date_hour()
     output_dir_with_time = os.path.join(output_dir, time)
     os.mkdir(output_dir_with_time)
-    os.system('cp info %s' % os.path.join(output_dir_with_time, 'model_info'))
+    os.system('cp info %s' % os.path.join(output_dir_with_time, 'info'))
     os.system('cp eval %s' % os.path.join(output_dir_with_time, 'eval'))
     os.system('cp output %s' % os.path.join(output_dir_with_time, 'output'))
     algorithm, test_file_list = predict_info
-    predict_content = """
-        Algorithm:%s
-        Test_file:%s
-        Test_time:%s
-    """ % (algorithm, ' '.join(test_file_list), time)
-    predict_info_file = os.path.join(output_dir_with_time, 'predict_info')
-    os.system('echo %s > %s' % (predict_content, predict_info_file))
+    predict_content = """Test_file:%s
+Test_time:%s
+    """ % (' '.join(test_file_list), time)
+    predict_info_file = os.path.join(output_dir_with_time, 'info')
+    os.system('echo "%s" >> %s' % (predict_content, predict_info_file))
     return 0
