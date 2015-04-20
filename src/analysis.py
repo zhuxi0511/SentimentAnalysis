@@ -76,10 +76,10 @@ if __name__ == '__main__':
         sys.exit(-1)
     config_dict = const.config_dict
     config_dict['config_file'] = config_file
-    config_dict['algorithm_dir'] = get_value(config, 'INIT', 'algorithm_dir', 
-            '[INIT] does not have algorithm_dir option')
-    config_dict['algorithm'] = get_value(config, 'INIT', 'algorithm', 
-            '[INIT] does not have algorithm option')
+    config_dict['algorithm_dir'] = get_value(config, 'ALGORITHM', 'algorithm_dir', 
+            '[ALGORITHM] does not have algorithm_dir option')
+    config_dict['algorithm'] = get_value(config, 'ALGORITHM', 'algorithm', 
+            '[ALGORITHM] does not have algorithm option')
     config_dict['data_dir'] = get_dir(config, 'DATA', 'data_dir', 
             '[DATA] does not have data_dir option')
     config_dict['model_dir'] = get_dir(config, 'DATA', 'model_dir', 
@@ -88,6 +88,12 @@ if __name__ == '__main__':
             '[DATA] does not have log_dir option')
     config_dict['output_dir'] = get_dir(config, 'DATA', 'output_dir', 
             '[DATA] does not have output_dir option')
+    config_dict['pre_segment_module'] = get_dir(config, 'PREPROCESS', 'pre_segment_module', 
+            '[PREPROCESS] does not have pre_segment_module option')
+    config_dict['segment_module'] = get_dir(config, 'PREPROCESS', 'segment_module', 
+            '[PREPROCESS] does not have segment_module option')
+    config_dict['extract_module'] = get_dir(config, 'PREPROCESS', 'extract_module', 
+            '[PREPROCESS] does not have extract_module option')
     config_dict['feature_extract'] = get_value(config, 'TRAIN', 'feature_extract', 
             '[TRAIN] does not have feature_extract option')
     config_dict['feature_extract'] = config_dict['feature_extract'].split(' ')

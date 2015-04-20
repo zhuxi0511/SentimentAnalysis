@@ -9,23 +9,43 @@ import train
 import model
 import predict
 import util
-algorithm_dir = const.config_dict['algorithm_dir']
-sys.path.append(algorithm_dir)
-import algorithm
-from preprocess import weibo_preprocess
 
-#TODO init the algorithm after read the config file
 def make_algorithm_init(algorithm_name):
+    sys.path.append(const.config_dict['algorithm_dir'])
+    sys.path.append(const.config_dict['preprocess_dit'])
+    import algorithm
+    import preprocess 
+    #TODO import the algorithm and preprocess AUTO
     import algorithm.maxent_baseline
     import algorithm.self_learn
     import algorithm.mln
+    import preprocess.Preprocess
     algorithm_dict = {
             'maxent_baseline': algorithm.maxent_baseline.MaxentBaseline,
             'self_learn': algorithm.self_learn.SelfLearn,
             'mln': algorithm.mln.Mln,
             }
     const.algorithm_handle = algorithm_dict.get(algorithm_name, None)()
-    const.preprocess_handle = weibo_preprocess.WeiboPreprocess()
+
+    const.preprocess_handle = preprocess.Preprocess(const.config_dict)
+
+def preprocess_controller():
+    logging.info('Preprocess controller start')
+
+    preprocess_handle = const.preprocess_handle
+    data_dir = const.config_dict['data_dir']
+
+    file_list = os.popen('ls %s' % data_dir).readlines()
+    for file_name in file_list:
+        file_name = file_name.strip()
+        if file_name.endswith('.raw'):
+            f = open(os.path.join(data_dir, file_name))
+            train.preprocess(preprocess_handle, f.readlines())
+            util.save_preprocessed_result(preprocess_handle.extracted_content, file_name[:-4])
+    util.save_feature_dict = (feature_dict, 'feature_dict')
+
+    logging.info('Preprocess controller end')
+
 
 def combine_controller(run_date):
     logging.info('Combine controller start')
@@ -62,23 +82,6 @@ def combine_controller(run_date):
                 train_file_list, test_file_list))
     logging.info('Combin controller end')
     return 0
-
-def preprocess_controller():
-    logging.info('Preprocess controller start')
-    preprocess_handle = const.preprocess_handle
-    algorithm_handle = const.algorithm_handle
-    data_dir = const.config_dict['data_dir']
-    print const.config_dict['data_dir']
-    print const.config_dict['log_dir']
-    file_list = os.popen('ls %s' % data_dir).readlines()
-    for file_name in file_list:
-        file_name = file_name.strip()
-        if file_name.endswith('.raw'):
-            preprocess_lines = open(os.path.join(data_dir, file_name)).readlines()
-            result_data, feature_dict = train.preprocess(preprocess_handle, preprocess_lines)
-            util.save_preprocessed_result(result_data, file_name[:-4])
-    util.save_feature_dict = (feature_dict, 'feature_dict')
-    logging.info('Preprocess controller end')
 
 def train_controller(run_date):
     logging.info('Train controller start')
