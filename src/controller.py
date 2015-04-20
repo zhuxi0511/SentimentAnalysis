@@ -58,7 +58,8 @@ def combine_controller(run_date):
 
     predict.combine_save(config_dict['output_dir'],
             run_date, 
-            (config_dict['algorithm'], train_file_list, test_file_list))
+            (config_dict['algorithm'], config_dict['config_file'], 
+                train_file_list, test_file_list))
     logging.info('Combin controller end')
     return 0
 
