@@ -27,7 +27,7 @@ def make_algorithm_init(algorithm_name):
     const.algorithm_handle = algorithm_dict.get(algorithm_name, None)()
     const.preprocess_handle = weibo_preprocess.WeiboPreprocess()
 
-def combine_controller():
+def combine_controller(run_date):
     logging.info('Combine controller start')
 
     # get config dictionary
@@ -36,6 +36,7 @@ def combine_controller():
 
     data_dir = config_dict['data_dir']
     train_file = config_dict['train_file']
+    test_file = config_dict['test_file']
 
     train_file_list, status = util.list_file(data_dir, train_file)
     if status < 0:
@@ -43,10 +44,21 @@ def combine_controller():
         return -1
     train.check_data(data_dir, train_file_list)
 
+    test_file_list, status = util.list_file(data_dir, test_file, 'test')
+    if status < 0:
+        logging.error('test_file do not exist, check test_file in configure')
+        return -1
+    predict.check_data(data_dir, test_file_list)
+
     train_file = 'train'
     test_file = 'test'
+    output_file = 'output'
     train.combine(algorithm_handle, train_file, test_file, output_file)
+    predict.eval()
 
+    predict.combine_save(config_dict['output_dir'],
+            run_date, 
+            (config_dict['algorithm'], train_file_list, test_file_list))
     logging.info('Combin controller end')
     return 0
 

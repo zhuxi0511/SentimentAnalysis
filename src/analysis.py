@@ -122,7 +122,7 @@ if __name__ == '__main__':
     from util import DateHour
     run_date = DateHour()
     if option.combine:
-        controller.combine_controller()
+        controller.combine_controller(run_date)
     else:
         if option.preprocess:
             controller.preprocess_controller()

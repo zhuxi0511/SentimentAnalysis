@@ -61,3 +61,21 @@ Test_time:%s
     predict_info_file = os.path.join(output_dir_with_time, 'info')
     os.system('echo "%s" >> %s' % (predict_content, predict_info_file))
     return 0
+
+def combine_save(output_dir, run_date, combine_info):
+    """Save combine output to output_dir and add test file info and model info"""
+
+    time = '%s_%s' % run_date.get_date_hour()
+    output_dir_with_time = os.path.join(output_dir, time)
+    os.mkdir(output_dir_with_time)
+    os.system('cp eval %s' % os.path.join(output_dir_with_time, 'eval'))
+    os.system('cp output %s' % os.path.join(output_dir_with_time, 'output'))
+    algorithm, train_file_list, test_file_list = combine_info
+    predict_content = """Algorithm:%s
+Train_file:%s
+Test_file:%s
+Run_time:%s
+    """ % (algorithm, ' '.join(train_file_list), ' '.join(test_file_list), time)
+    predict_info_file = os.path.join(output_dir_with_time, 'info')
+    os.system('echo "%s" >> %s' % (predict_content, predict_info_file))
+    return 0

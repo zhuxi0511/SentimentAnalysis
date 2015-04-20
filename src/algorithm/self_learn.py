@@ -30,10 +30,8 @@ class SelfLearn:
         train_list = []
         f = open(train_file)
         for i, line in enumerate(f.readlines()):
-            line = line.strip().split('\t')
-            item_id = line[0]
-            tag = line[1]
-            context = map(lambda x:x.split(':'), line[2])
+            item_id, tag, features = line.strip().split('\t')
+            context = map(lambda x:x.split(':'), features.split(' ')) 
             context = tuple(map(lambda x:(x[0], float(x[1])), context))
             train_list.append( ('train%s' % item_id, context, tag) )
 
@@ -46,7 +44,7 @@ class SelfLearn:
         f = open(test_file)
         for i, line in enumerate(f.readlines()):
             item_id, tag, features = line.strip().split('\t')
-            context = map(lambda x:x.split(':'), features)
+            context = map(lambda x:x.split(':'), features.split(' '))
             context = tuple(map(lambda x:(x[0], float(x[1])), context))
             test_set.add( ('test%s' % item_id, context, tag) )
         f.close()
