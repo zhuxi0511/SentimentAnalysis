@@ -41,7 +41,7 @@ def preprocess_controller():
         if file_name.endswith('.raw'):
             f = open(os.path.join(data_dir, file_name))
             train.preprocess(preprocess_handle, f.readlines())
-            util.save_preprocessed_result(preprocess_handle.extracted_content, file_name[:-4])
+            util.save_extracted_content(preprocess_handle.extracted_content, file_name[:-4])
     util.save_feature_dict = (feature_dict, 'feature_dict')
 
     logging.info('Preprocess controller end')

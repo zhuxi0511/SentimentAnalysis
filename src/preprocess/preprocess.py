@@ -2,20 +2,18 @@
 
 import sys
 import os
-from ICTCLAS2015 import nlpir
 
 class Preprocess:
     def __init__(self, config_dict):
         self.config_dict = config_dict
         self.item_info = {}
-        self.segmented_content = {}
         self.extracted_content = {}
         self.feature_dict = {}
 
     def preprocess(self, lines):
         self.item_info = self.read_raw(lines)
-        self.segmented_content = self.segment(self.item_info)
-        self.extracted_content = self.extract(self.segmented_content)
+        self.public_info = self.predeal(self.item_info)
+        self.extracted_content = self.extract(self.item_info, self.public_info)
 
     def read_raw(self, lines):
         item_info = {}
@@ -30,10 +28,10 @@ class Preprocess:
                 item_info[line[0]]['tag'] = line[2]
         return item_info
 
-    def segment(self):
+    def predeal(self, item_info):
         pass
 
-    def extract(self):
+    def extract(self, segmented_content):
         pass
 
 def output(result, feature_dict):

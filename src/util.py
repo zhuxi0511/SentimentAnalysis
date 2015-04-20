@@ -6,7 +6,7 @@ import sys
 import datetime
 import const
 
-def save_preprocessed_result(result, file_name):
+def save_extracted_content(result, file_name):
     data_dir = const.config_dict['data_dir']
     f = open(os.path.join(data_dir, file_name), 'w')
     for item_id, value in result.iteritems():
