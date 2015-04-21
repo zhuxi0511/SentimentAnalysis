@@ -12,14 +12,12 @@ import util
 
 def make_algorithm_init(algorithm_name):
     sys.path.append(const.config_dict['algorithm_dir'])
-    sys.path.append(const.config_dict['preprocess_dit'])
     import algorithm
     import preprocess 
     #TODO import the algorithm and preprocess AUTO
     import algorithm.maxent_baseline
     import algorithm.self_learn
     import algorithm.mln
-    import preprocess.Preprocess
     algorithm_dict = {
             'maxent_baseline': algorithm.maxent_baseline.MaxentBaseline,
             'self_learn': algorithm.self_learn.SelfLearn,
@@ -27,7 +25,8 @@ def make_algorithm_init(algorithm_name):
             }
     const.algorithm_handle = algorithm_dict.get(algorithm_name, None)()
 
-    const.preprocess_handle = preprocess.Preprocess(const.config_dict)
+    import preprocess.preprocess
+    const.preprocess_handle = preprocess.preprocess.Preprocess(const.config_dict)
 
 def preprocess_controller():
     logging.info('Preprocess controller start')
@@ -42,7 +41,7 @@ def preprocess_controller():
             f = open(os.path.join(data_dir, file_name))
             train.preprocess(preprocess_handle, f.readlines())
             util.save_extracted_content(preprocess_handle.extracted_content, file_name[:-4])
-    util.save_feature_dict = (feature_dict, 'feature_dict')
+    util.save_feature_dict(preprocess_handle.feature_dict, 'feature_dict')
 
     logging.info('Preprocess controller end')
 

@@ -13,7 +13,7 @@ class Preprocess:
     def preprocess(self, lines):
         self.item_info = self.read_raw(lines)
         self.public_resource = self.predeal(self.item_info)
-        self.extracted_content = self.extract(self.public_resource)
+        self.extract(self.public_resource)
 
     def read_raw(self, lines):
         item_info = {}
@@ -29,10 +29,39 @@ class Preprocess:
         return item_info
 
     def predeal(self, item_info):
-        pass
+        predeal_module = self.config_dict['predeal_module']
+        exec('from predeal import %s' % predeal_module)
+        predeal_function = eval(predeal_module)
+        return predeal_function(item_info)
 
-    def extract(self, segmented_content):
-        pass
+    def extract(self, public_resource):
+        self.extracted_content = {}
+        extract_module_list = self.config_dict['extract_module']
+        for extract_module in extract_module_list:
+            exec('from extract import %s' % extract_module)
+            extract_funcion = eval(extract_module)
+            item_feature_list = extract_funcion(self.item_info, public_resource)
+            for item, feature in item_feature_list:
+                feature_id = self.add_feature(feature)
+                self.add_extracted_content(item, feature_id)
+
+    def add_feature(self, feature):
+        if not feature:
+            return 0
+        if feature not in self.feature_dict:
+            self.feature_dict[feature] = len(self.feature_dict) + 1
+        return self.feature_dict[feature]
+
+    def add_extracted_content(self, item_id, feature_id, value=1):
+        if not item_id in self.extracted_content:
+            self.extracted_content[item_id] = {
+                    'tag':self.item_info[item_id]['tag'],
+                    'feature':{}
+                    }
+        feature_dict = self.extracted_content[item_id]['feature']
+        if not feature_id in feature_dict:
+            feature_dict[feature_id] = 0
+        feature_dict[feature_id] += value
 
 def output(result, feature_dict):
     t_dict = {}

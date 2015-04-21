@@ -88,15 +88,13 @@ if __name__ == '__main__':
             '[DATA] does not have log_dir option')
     config_dict['output_dir'] = get_dir(config, 'DATA', 'output_dir', 
             '[DATA] does not have output_dir option')
-    config_dict['pre_segment_module'] = get_dir(config, 'PREPROCESS', 'pre_segment_module', 
-            '[PREPROCESS] does not have pre_segment_module option')
-    config_dict['segment_module'] = get_dir(config, 'PREPROCESS', 'segment_module', 
-            '[PREPROCESS] does not have segment_module option')
-    config_dict['extract_module'] = get_dir(config, 'PREPROCESS', 'extract_module', 
+    config_dict['predeal_module'] = get_value(config, 'PREPROCESS', 'predeal_module', 
+            '[PREPROCESS] does not have predeal_module option')
+
+    config_dict['extract_module'] = get_value(config, 'PREPROCESS', 'extract_module', 
             '[PREPROCESS] does not have extract_module option')
-    config_dict['feature_extract'] = get_value(config, 'TRAIN', 'feature_extract', 
-            '[TRAIN] does not have feature_extract option')
-    config_dict['feature_extract'] = config_dict['feature_extract'].split(' ')
+    config_dict['extract_module'] = config_dict['extract_module'].split(' ')
+
     config_dict['train_file'] = get_value(config, 'TRAIN', 'train_file', 
             '[TRAIN] does not have train_file option')
     config_dict['model_name'] = get_value(config, 'TRAIN', 'model_name', 

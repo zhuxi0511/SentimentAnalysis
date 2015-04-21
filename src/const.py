@@ -9,8 +9,7 @@ config_dict = {
         'log_dir': None,
         'output_dir': None,
 
-        'pre_segment_module':None,
-        'segment_module':None,
+        'predeal_module':None,
         'extract_module':None,
 
         'train_file': 'ALL',
