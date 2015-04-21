@@ -12,8 +12,8 @@ class Preprocess:
 
     def preprocess(self, lines):
         self.item_info = self.read_raw(lines)
-        self.public_info = self.predeal(self.item_info)
-        self.extracted_content = self.extract(self.item_info, self.public_info)
+        self.public_resource = self.predeal(self.item_info)
+        self.extracted_content = self.extract(self.public_resource)
 
     def read_raw(self, lines):
         item_info = {}
