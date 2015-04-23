@@ -10,22 +10,6 @@ class SelfLearn:
     def __init__(self):
         self.maxent = MaxentModel()
 
-    def data_adapter(self, data, feature_dict, adapted_data_file):
-        f = open(adapted_data_file, 'w')
-        lines = []
-        for item_id, value in data.iteritems():
-            line = '%s %s\n' % (
-                    value['tag'], 
-                    ' '.join(
-                        map(lambda x:'%s:%s' % (x[0], x[1]), 
-                        value['feature'].iteritems())
-                        )
-                    )
-            lines.append((item_id, line))
-        lines.sort(key=lambda x:int(x[0]))
-        f.writelines(map(lambda x:x[1], lines))
-        f.close()
-
     def combine(self, train_file, test_file, output_file):
         train_list = []
         f = open(train_file)

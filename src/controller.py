@@ -10,21 +10,24 @@ import model
 import predict
 import util
 
-def make_algorithm_init(algorithm_name):
-    sys.path.append(const.config_dict['algorithm_dir'])
-    import algorithm
-    import preprocess 
+def make_algorithm_init(algorithm):
+    algorithm_dir = const.config_dict['algorithm_dir']
+    sys.path.append(algorithm_dir)
+    file_list = os.popen('ls %s' % algorithm_dir).readlines()
     #TODO import the algorithm and preprocess AUTO
-    import algorithm.maxent_baseline
-    import algorithm.self_learn
-    import algorithm.mln
-    algorithm_dict = {
-            'maxent_baseline': algorithm.maxent_baseline.MaxentBaseline,
-            'self_learn': algorithm.self_learn.SelfLearn,
-            'mln': algorithm.mln.Mln,
-            }
-    const.algorithm_handle = algorithm_dict.get(algorithm_name, None)()
+    algorithm_dict = {}
+    for file_name in file_list:
+        file_name = file_name.strip()
+        if file_name.endswith('.py') and file_name != '__init__.py':
+            algorithm_name = file_name[:-3]
+            class_name = ''.join(
+                    [w.capitalize() for w in algorithm_name.split('_')])
+            exec('import %s' % algorithm_name)
+            class_module = eval('%s.%s' % (algorithm_name, class_name))
+            algorithm_dict['%s' % algorithm_name] = class_module
+    const.algorithm_handle = algorithm_dict.get(algorithm, None)()
 
+    import preprocess 
     import preprocess.preprocess
     const.preprocess_handle = preprocess.preprocess.Preprocess(const.config_dict)
 
@@ -44,7 +47,6 @@ def preprocess_controller():
     util.save_feature_dict(preprocess_handle.feature_dict, 'feature_dict')
 
     logging.info('Preprocess controller end')
-
 
 def combine_controller(run_date):
     logging.info('Combine controller start')

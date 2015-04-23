@@ -33,10 +33,13 @@ def get_dir(config, section, key, error=None):
 if __name__ == '__main__':
     #get config file path
     src_dir = os.path.dirname(os.path.realpath(__file__))
+    main_dir = os.path.dirname(src_dir)
+    lib_dir = os.path.join(main_dir, 'lib')
     start_time = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 
     # add src path
     sys.path.append(src_dir)
+    sys.path.append(lib_dir)
     import const
     import controller
     tmp_dir = os.path.join(src_dir, 'tmp')
@@ -76,7 +79,7 @@ if __name__ == '__main__':
         sys.exit(-1)
     config_dict = const.config_dict
     config_dict['config_file'] = config_file
-    config_dict['algorithm_dir'] = get_value(config, 'ALGORITHM', 'algorithm_dir', 
+    config_dict['algorithm_dir'] = get_dir(config, 'ALGORITHM', 'algorithm_dir', 
             '[ALGORITHM] does not have algorithm_dir option')
     config_dict['algorithm'] = get_value(config, 'ALGORITHM', 'algorithm', 
             '[ALGORITHM] does not have algorithm option')
