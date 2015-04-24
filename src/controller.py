@@ -121,6 +121,7 @@ def predict_controller(run_date):
 
     data_dir = config_dict['data_dir']
     data_file = config_dict['test_file']
+    model_dir = config_dict['model_dir']
 
     test_file_list, status = util.list_file(data_dir, data_file, 'test')
     if status < 0:
@@ -129,7 +130,7 @@ def predict_controller(run_date):
     predict.check_data(data_dir, test_file_list)
 
     model_data = config_dict['test_model']
-    model.load(data_dir, model_data)
+    model.load(model_dir, model_data)
 
     # predict the result
     test_file = 'test'
