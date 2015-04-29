@@ -26,6 +26,7 @@ def make_algorithm_init(algorithm):
             class_module = eval('%s.%s' % (algorithm_name, class_name))
             algorithm_dict['%s' % algorithm_name] = class_module
     const.algorithm_handle = algorithm_dict.get(algorithm, None)()
+    const.algorithm_file = os.path.join(const.config_dict['algorithm_dir'], '%s.py' % algorithm)
 
     import preprocess 
     import preprocess.preprocess
@@ -79,7 +80,9 @@ def combine_controller(run_date):
 
     predict.combine_save(config_dict['output_dir'],
             run_date, 
-            (config_dict['algorithm'], config_dict['config_file'], 
+            (config_dict['algorithm'], 
+                const.algorithm_file,
+                config_dict['config_file'], 
                 train_file_list, test_file_list))
     logging.info('Combin controller end')
     return 0
@@ -107,6 +110,7 @@ def train_controller(run_date):
     model_dir = const.config_dict['model_dir']
     model.save(model_dir, run_date, 
             (config_dict['algorithm'], 
+                const.algorithm_file,
                 train_file_list, 
                 config_dict['config_file'], 
                 config_dict['model_name']))
@@ -141,7 +145,9 @@ def predict_controller(run_date):
 
     predict.save(config_dict['output_dir'],
             run_date, 
-            (config_dict['algorithm'], test_file_list))
+            (config_dict['algorithm'], 
+                const.algorithm_file,
+                test_file_list))
 
     logging.info('Predict controller end')
 

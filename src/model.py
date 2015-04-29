@@ -8,7 +8,7 @@ import util
 def save(model_dir, run_date, model_info):
     """Save model to model_dir and add model info and date"""
 
-    algorithm, train_file_list, config_file, model_name = model_info
+    algorithm, algorithm_file, train_file_list, config_file, model_name = model_info
     if model_name == 'AUTO':
         model_name = '%s_%s' % run_date.get_date_hour()
     model_dir_with_name = os.path.join(model_dir, model_name)
@@ -24,6 +24,7 @@ Model_name:%s
     os.system('echo "%s" > %s' % (model_content, model_info_file))
 
     os.system('cp %s %s' % (config_file, os.path.join(model_dir_with_name, 'config')))
+    os.system('cp %s %s' % (algorithm_file, model_dir_with_name))
     return 0
 
 def load(model_dir, model_data):
