@@ -42,7 +42,9 @@ if __name__ == '__main__':
     sys.path.append(lib_dir)
     import const
     import controller
-    tmp_dir = os.path.join(src_dir, 'tmp')
+    from util import DateHour
+    run_date = DateHour()
+    tmp_dir = os.path.join(src_dir, '%s_%s' % ('tmp', '%s_%s' % run_date.get_date_hour()))
     os.system('mkdir -p %s' % tmp_dir)
     os.chdir(tmp_dir)
 
@@ -126,8 +128,6 @@ if __name__ == '__main__':
     if option.check_algorithm:
         controller.algorithm_controller('check', option.check_algorithm)
 
-    from util import DateHour
-    run_date = DateHour()
     if option.combine:
         controller.combine_controller(run_date)
     else:

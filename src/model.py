@@ -8,10 +8,13 @@ import util
 def save(model_dir, run_date, model_info):
     """Save model to model_dir and add model info and date"""
 
-    algorithm, algorithm_file, train_file_list, config_file, model_name = model_info
+    algorithm, train_file_list, config_file, model_name = model_info
+    algorithm_file = '%s.py' % algorithm
     if model_name == 'AUTO':
         model_name = '%s_%s' % run_date.get_date_hour()
     model_dir_with_name = os.path.join(model_dir, model_name)
+    if os.path.isdir(model_dir_with_name) or os.path.isfile(model_dir_with_name):
+        os.system('rm -rf %s' % model_dir_with_name)
     os.mkdir(model_dir_with_name)
     os.system('cp model %s' % model_dir_with_name)
 

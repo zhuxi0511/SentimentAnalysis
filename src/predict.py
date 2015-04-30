@@ -48,7 +48,8 @@ def eval():
 def save(output_dir, run_date, predict_info):
     """Save predict output to output_dir and add test file info and model info"""
 
-    algorithm, algorithm_file, test_file_list = predict_info
+    algorithm, test_file_list = predict_info
+    algorithm_file = '%s.py' % algorithm
     time = '%s_%s' % run_date.get_date_hour()
     output_dir_with_time = os.path.join(output_dir, time)
     os.mkdir(output_dir_with_time)
@@ -66,7 +67,8 @@ Test_time:%s
 def combine_save(output_dir, run_date, combine_info):
     """Save combine output to output_dir and add test file info and model info"""
 
-    algorithm, algorithm_file, config_file, train_file_list, test_file_list = combine_info
+    algorithm, config_file, train_file_list, test_file_list = combine_info
+    algorithm_file = '%s.py' % algorithm
     time = '%s_%s' % run_date.get_date_hour()
     output_dir_with_time = os.path.join(output_dir, time)
     os.mkdir(output_dir_with_time)
