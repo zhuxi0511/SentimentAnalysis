@@ -12,6 +12,8 @@ def save_extracted_content(result, file_name):
     for item_id, value in result.iteritems():
         tag = value['tag']
         feature_dict = value['feature']
+        if len(feature_dict) == 0:
+            continue
         feature_list = map(lambda feature:'%s:%s' % (feature[0], feature[1]), 
                 feature_dict.iteritems())
         f.write('%s\t%s\t%s\n' % (item_id, tag, ' '.join(feature_list)))
