@@ -44,9 +44,6 @@ if __name__ == '__main__':
     import controller
     from util import DateHour
     run_date = DateHour()
-    tmp_dir = os.path.join(src_dir, '%s_%s' % ('tmp', '%s_%s' % run_date.get_date_hour()))
-    os.system('mkdir -p %s' % tmp_dir)
-    os.chdir(tmp_dir)
 
     #get command option
     parser = OptionParser()
@@ -111,6 +108,9 @@ if __name__ == '__main__':
 
     #Make director for log model and output
     #Then initialize log file
+    tmp_dir = os.path.join(src_dir, '%s_%s_%s' % ('tmp', config_dict['algorithm'], '%s_%s' % run_date.get_date_hour()))
+    os.system('mkdir -p %s' % tmp_dir)
+    os.chdir(tmp_dir)
     log_dir = config_dict['log_dir']
     os.system('mkdir -p %s' % log_dir)
     os.system('mkdir -p %s' % config_dict['model_dir'])
