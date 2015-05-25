@@ -51,7 +51,7 @@ def save(output_dir, run_date, predict_info):
     algorithm, test_file_list = predict_info
     algorithm_file = '%s.py' % algorithm
     time = '%s_%s' % run_date.get_date_hour()
-    output_dir_with_time = os.path.join(output_dir, time)
+    output_dir_with_time = os.path.join(output_dir, '%s_%s' % (algorithm, time))
     os.mkdir(output_dir_with_time)
     os.system('cp info %s' % os.path.join(output_dir_with_time, 'info'))
     os.system('cp eval %s' % os.path.join(output_dir_with_time, 'eval'))

@@ -57,7 +57,7 @@ class DateHour(object):
         _datetime = self.datetime + datetime.timedelta(days=_days, seconds=_seconds)
         
         date = '%04d%02d%02d' %(_datetime.year, _datetime.month, _datetime.day)
-        hour = '%02d:%02d:%02d' %(_datetime.hour, _datetime.minute, _datetime.second)
+        hour = '%02d%02d%02d' %(_datetime.hour, _datetime.minute, _datetime.second)
         return (date, hour)
 
 if __name__ == '__main__':
