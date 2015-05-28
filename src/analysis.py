@@ -67,7 +67,7 @@ if __name__ == '__main__':
     if len(args) != 1:
         print >> sys.stderr, "Param Error. Using: %s %s" % (sys.argv[0], 'config')
         sys.exit(1)
-    config_file = args[0]
+    config_file = os.path.expanduser(args[0])
 
     #get config file option
     config = ConfigParser.ConfigParser()
