@@ -1,8 +1,8 @@
-# 情感倾向性分析平台
+# 有监督机器学习平台
 
 ### 总体介绍
 
-本情感倾向性分析平台期望解决一类以特征向量为主要输入数据的有监督机器学习问题
+本有监督机器学习平台期望解决一类以特征向量为主要输入数据的有监督机器学习问题
 
 ### 命令参数
 
@@ -29,7 +29,7 @@
 	
 [PREPROCESS]
 	
-	predeal_module：公共信息预处理模块名
+	pretreat_module：公共信息预处理模块名
 	extract_module：特征抽取处理模块名
 
 [TRAIN]
@@ -59,7 +59,7 @@
 	output_dir=~/weibo/output
 	
 	[PREPROCESS]
-	predeal_module=maxent_predeal
+	pretreat_module=maxent_pretreat
 	extract_module=word_list emotion_word syntax sentence_length
 	
 	[TRAIN]
@@ -126,11 +126,11 @@
 
 ### 预处理模块说明
 
-此工具的预处理流程分为predeal和extract部分。extract抽取得到的特征会通过平台统一编号并合并结果，用于算法模块的训练以及预测过程。
+此工具的预处理流程分为pretreat和extract部分。extract抽取得到的特征会通过平台统一编号并合并结果，用于算法模块的训练以及预测过程。
 
-predeal部分用于预处理数据获取public_resource，用户可以自定义一个函数来完成这部分的功能，其基本形式为：
+pretreat部分用于预处理数据获取public_resource，用户可以自定义一个函数来完成这部分的功能，其基本形式为：
 
-	def maxent_predeal(item_info):
+	def maxent_pretreat(item_info):
 		...
 		return public_resource
 
@@ -144,7 +144,7 @@ extract部分用于提取item的特征，可以指定多个函数一起完成这
 * item_info为读入的原始数据，其结构在之后的数据标准中。<br/>
 * public_resource为用户自定义的资源结构，可以由用户自己自由使用
 
-predeal和extract所使用的模块函数需要由用户实现，分别将其放入`preprocess/predeal/__init__.py`和`preprocess/extract/__init__.py`，然后由配置文件指定即可调用。
+pretreat和extract所使用的模块函数需要由用户实现，分别将其放入`config['algorithm_dir']/pre/pretreat.py`和`config['algorithm_dir']/pre/extract.py`，然后由配置文件指定即可调用。这部分内容具体设置可参考[工程简单例子](https://github.com/zhuxi0511/slt_sample_dir)
 
 ### 数据接口标准
 

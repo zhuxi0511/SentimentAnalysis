@@ -10,6 +10,9 @@ class Preprocess:
         self.extracted_content = {}
         self.feature_dict = {}
 
+        algorithm_dir = self.config_dict['algorithm_dir']
+        sys.path.append(algorithm_dir)
+
     def preprocess(self, lines):
         self.item_info = self.read_raw(lines)
         self.public_resource = self.pretreat(self.item_info)
@@ -29,17 +32,17 @@ class Preprocess:
         return item_info
 
     def pretreat(self, item_info):
+        from pre import pretreat
         pretreat_module = self.config_dict['pretreat_module']
-        exec('from pretreat import %s' % pretreat_module)
-        pretreat_function = eval(pretreat_module)
+        pretreat_function = eval('pretreat.%s' % pretreat_module)
         return pretreat_function(item_info)
 
     def extract(self, public_resource):
+        from pre import extract
         self.extracted_content = {}
         extract_module_list = self.config_dict['extract_module']
         for extract_module in extract_module_list:
-            exec('from extract import %s' % extract_module)
-            extract_funcion = eval(extract_module)
+            extract_funcion = eval('extract.%s' % extract_module)
             item_feature_list = extract_funcion(self.item_info, public_resource)
             for item, feature in item_feature_list:
                 feature_id = self.add_feature(feature)

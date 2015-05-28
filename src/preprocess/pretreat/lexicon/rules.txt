@@ -1,2 +1,0 @@
-挺 + N: POS
-挺 + ADJ: ADVERB
