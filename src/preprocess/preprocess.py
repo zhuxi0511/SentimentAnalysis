@@ -12,7 +12,7 @@ class Preprocess:
 
     def preprocess(self, lines):
         self.item_info = self.read_raw(lines)
-        self.public_resource = self.predeal(self.item_info)
+        self.public_resource = self.pretreat(self.item_info)
         self.extract(self.public_resource)
 
     def read_raw(self, lines):
@@ -28,11 +28,11 @@ class Preprocess:
                 item_info[line[0]]['tag'] = line[2]
         return item_info
 
-    def predeal(self, item_info):
-        predeal_module = self.config_dict['predeal_module']
-        exec('from predeal import %s' % predeal_module)
-        predeal_function = eval(predeal_module)
-        return predeal_function(item_info)
+    def pretreat(self, item_info):
+        pretreat_module = self.config_dict['pretreat_module']
+        exec('from pretreat import %s' % pretreat_module)
+        pretreat_function = eval(pretreat_module)
+        return pretreat_function(item_info)
 
     def extract(self, public_resource):
         self.extracted_content = {}

@@ -90,8 +90,8 @@ if __name__ == '__main__':
             '[DATA] does not have log_dir option')
     config_dict['output_dir'] = get_dir(config, 'DATA', 'output_dir', 
             '[DATA] does not have output_dir option')
-    config_dict['predeal_module'] = get_value(config, 'PREPROCESS', 'predeal_module', 
-            '[PREPROCESS] does not have predeal_module option')
+    config_dict['pretreat_module'] = get_value(config, 'PREPROCESS', 'pretreat_module', 
+            '[PREPROCESS] does not have pretreat_module option')
 
     config_dict['extract_module'] = get_value(config, 'PREPROCESS', 'extract_module', 
             '[PREPROCESS] does not have extract_module option')
